@@ -1,19 +1,14 @@
 const express = require("express");
-const { body,validationResult } = require('express-validator');
-
 const router = express.Router();
-
-
 const categoryController = require("../controllers/Category");
+const validator = require("../request/category");
 
-const loginValidator = [
-  body('title', 'Invalid does not Empty').not().isEmpty(),
-]
+
 
 router.get('/category',  categoryController.getCategories);
-router.post("/category", loginValidator, categoryController.create);
+router.post("/category", validator.create, categoryController.create);
 router.get("/category/:id", categoryController.findCategory);
-router.patch("/category/:id", categoryController.update);
+router.patch("/category/:id", validator.update, categoryController.update);
 router.delete("/category/:id", categoryController.delete);
 
 module.exports = router;

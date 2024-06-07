@@ -1,20 +1,28 @@
 const Expenses = require("../models/Expenses");
 
+const { validationResult, matchedData } = require('express-validator');
+
 exports.getExpenses = async (req, res) => {
     const expenses = await Expenses.find();
     res.send(expenses);
 }
 
 exports.create = async (req, res) => {
-    const expenses = new Expenses({
-        title: req.body.title,
-        description: req.body.description,
-        amount: req.body.amount,
-        date: req.body.date,
-        category: req.body.category
-    });
-    await expenses.save();
-    res.send(expenses);
+    const result = validationResult(req);
+    if (result.isEmpty()) {
+        const expenses = new Expenses({
+            title: req.body.title,
+            description: req.body.description,
+            amount: req.body.amount,
+            date: req.body.date,
+            category: req.body.category
+        });
+        await expenses.save();
+        res.send(expenses);
+        return;
+    }
+
+    res.send({ errors: result.array() });
 }
 
 exports.findExpenses = async (req, res) => {
@@ -48,8 +56,8 @@ exports.update = async (req, res) => {
 
         await expenses.save();
         res.send(expenses);
-    } catch(error) {
-        res.status(404).json({message: error.message});
+    } catch (error) {
+        res.status(404).json({ message: error.message });
     }
 }
 
