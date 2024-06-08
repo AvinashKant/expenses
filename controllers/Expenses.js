@@ -10,12 +10,14 @@ exports.getExpenses = async (req, res) => {
 exports.create = async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
+        const data = matchedData(req);
         const expenses = new Expenses({
-            title: req.body.title,
-            description: req.body.description,
-            amount: req.body.amount,
-            date: req.body.date,
-            category: req.body.category
+            title: data.title,
+            description: data.description,
+            amount: data.amount,
+            date: data.date,
+            category: data.category,
+            sub_category: data.sub_category
         });
         await expenses.save();
         res.send(expenses);
