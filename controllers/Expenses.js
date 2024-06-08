@@ -3,7 +3,7 @@ const Expenses = require("../models/Expenses");
 const { validationResult, matchedData } = require('express-validator');
 
 exports.getExpenses = async (req, res) => {
-    const expenses = await Expenses.find();
+    const expenses = await Expenses.find().populate("category").populate("sub_category");
     res.send(expenses);
 }
 

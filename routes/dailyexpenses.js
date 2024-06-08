@@ -4,14 +4,14 @@ const validator = require("../request/expenses");
 const router = express.Router();
 
 
-router.get("/expenses", expensesController.getExpenses);
+router.get("/daily-expenses", expensesController.getExpenses);
 
-router.post("/expenses", validator.create, expensesController.create);
+router.post("/daily-expenses", validator.create, expensesController.create);
 
-router.get("/expenses/:id", expensesController.findExpenses);
+router.get("/daily-expenses/:id", expensesController.findExpenses);
 
-router.patch("/expenses/:id", validator.update,expensesController.update);
+router.patch("/daily-expenses/:id", validator.update, expensesController.update);
 
-router.delete("/expenses/:id", expensesController.delete);
+router.delete("/daily-expenses/:id", expensesController.delete);
 
 module.exports = router;

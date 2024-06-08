@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema({
-    description: String,
-    amount: Number,
-    date: Date,
-    user: {
+    name: String,
+    email: String,
+    password: String,
+    daily_expenses: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users"
-    },
+        ref: "daily_expenses"
+     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "categories"
-    },
-    sub_category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "categories"
     },
@@ -21,4 +17,4 @@ const schema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("daily_expenses", schema);
+module.exports = mongoose.model("users", schema);
