@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 const app = express();
 const categories = require("./routes/category");
 const dailyExpenses = require("./routes/dailyexpenses");
