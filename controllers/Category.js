@@ -1,5 +1,5 @@
 const Category = require("../models/Category");
-const { validationResult } = require('express-validator');
+const { validationResult, matchedData } = require('express-validator');
 
 
 
@@ -11,40 +11,44 @@ exports.getCategories = async (req, res) => {
 exports.create = async (req, res) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
+        const data = matchedData(req);
         const category = new Category({
-            title: req.body.title
+            title: data.title
         });
         await category.save();
         res.send(category);
+        return;
     }
 
     res.send({ errors: result.array() });
 }
-
 
 exports.findCategory = async (req, res) => {
     const category = await Category.findOne({ _id: req.params.id });
     res.send(category);
 }
 
-
 exports.update = async (req, res) => {
-    const result = validationResult(req);
-    if (result.isEmpty()) {
-        try {
+    try {
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+            const data = matchedData(req);
             const category = await Category.findOne({ _id: req.params.id });
 
-            if (req.body.title) {
-                category.title = req.body.title;
+            if (data.title) {
+                category.title = data.title;
             }
 
             await category.save();
             res.send(category);
-        } catch (error) {
-            res.status(404).json({ message: error.message });
+            return;
+
         }
+        res.send({ errors: result.array() });
+    } catch (error) {
+        res.status(404);
+        res.send({ error: "Category doesn't exist!" });
     }
-    res.send({ errors: result.array() });
 }
 
 
