@@ -7,7 +7,3 @@ exports.create = [
     body('category', 'Invalid does not Empty').not().isEmpty().escape(),
     body('sub_category', 'Invalid does not Empty').not().isEmpty().escape(),
 ]
-
-exports.update = [
-    body('title', 'Invalid does not Empty').not().isEmpty().escape(),
-]
