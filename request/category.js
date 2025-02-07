@@ -1,7 +1,7 @@
 const { body } = require('express-validator');
 
 exports.create = [
-    body('title', 'Invalid does not Empty').not().isEmpty().escape(),
+    body('title', 'Please enter title').not().isEmpty().escape(),
 ]
 
 exports.update = [
