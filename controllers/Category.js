@@ -1,8 +1,6 @@
 const Category = require("../models/Category");
 const { validationResult, matchedData } = require('express-validator');
 
-
-
 exports.getCategories = async (req, res) => {
     const category = await Category.find();
     res.send(category);
@@ -38,11 +36,9 @@ exports.update = async (req, res) => {
             if (data.title) {
                 category.title = data.title;
             }
-
             await category.save();
             res.send(category);
             return;
-
         }
         res.send({ errors: result.array() });
     } catch (error) {
@@ -50,7 +46,6 @@ exports.update = async (req, res) => {
         res.send({ error: "Category doesn't exist!" });
     }
 }
-
 
 exports.delete = async (req, res) => {
     try {
