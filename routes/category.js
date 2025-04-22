@@ -4,7 +4,6 @@ const categoryController = require("../controllers/Category");
 const validator = require("../request/category");
 
 
-
 router.get('/category', categoryController.getCategories);
 router.post("/category", validator.create, categoryController.create);
 router.get("/category/:id", categoryController.findCategory);
