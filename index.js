@@ -7,10 +7,30 @@ dotenv.config({ path: './.env' });
 const app = express();
 const categories = require("./routes/category");
 const dailyExpenses = require("./routes/dailyexpenses");
+const test = require("./routes/test");
 
 const dbConfig = require('./config/database.config.js');
 
 app.use(cors({ origin: '*' }));
+
+app.use((req, res, next) => {
+   const origin = req.headers.origin;
+   const referer = req.headers.referer;
+
+   console.log('Origin:', origin);
+   console.log('Referer:', referer);
+
+   // Use the Origin header for cross-origin checks if needed
+   if (origin === 'http://localhost:5173') {
+      // Allow the request
+      next();
+   } else if (!origin && req.headers.host) {
+      // Same-origin request (Origin header might be missing)
+      next();
+   } else {
+      res.status(403).json({ error: 'Origin not allowed' });
+   }
+});
 
 
 // Connect to MongoDB database
@@ -22,6 +42,7 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true }).then(() => {
    app.use(express.urlencoded({ extended: true }));
    app.use("/api", categories);
    app.use("/api", dailyExpenses);
+   app.use("/api", test);
 
    app.listen(5000, () => {
       console.log("Server has started!");
