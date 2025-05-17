@@ -23,7 +23,6 @@ exports.create = async (req, res) => {
         res.send(expenses);
         return;
     }
-
     res.send({ errors: result.array() });
 }
 
