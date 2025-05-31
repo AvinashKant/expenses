@@ -1,18 +1,15 @@
-const cluster = require('cluster');
-const os = require('os');
+const dotenv = require('dotenv');
+const app = require("./src/app");
+const { connectDB } = require('./src/databases/mongodb')
 
-if (cluster.isMaster) {
-  const numCPUs = os.cpus().length;
-  console.log(`Master running on ${process.pid}`);
+dotenv.config();
 
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+const PORT = process.env.PORT || 5000;
+/**
+ * test DB connections
+ */
+connectDB();
 
-  cluster.on('exit', (worker) => {
-    console.log(`Worker ${worker.process.pid} died. Restarting...`);
-    cluster.fork();
-  });
-} else {
-  require('./app'); // Worker starts Express app
-}
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

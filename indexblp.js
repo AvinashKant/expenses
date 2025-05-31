@@ -1,13 +1,12 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 const cors = require('cors');
 
 dotenv.config({ path: './.env' });
 const app = express();
-const categories = require("./routes/category");
-const dailyExpenses = require("./routes/dailyexpenses");
-const test = require("./routes/test");
+const categories = require("./routes/category.js");
+const dailyExpenses = require("./routes/dailyexpenses.js");
+const test = require("./routes/test.js");
 
 const dbConfig = require('./config/database.config.js');
 
