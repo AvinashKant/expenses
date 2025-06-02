@@ -1,16 +1,11 @@
 
-const { mongoDBUrl } = require('./../config/dbConfig')
-const mongoose = require("mongoose");
+const { mongoDBUrl } = require('../config/database.config')
+const mongoose = require('mongoose');
+
 const connectDB = async () => {
-    try {
-        await mongoose.connect(mongoDBUrl, { useNewUrlParser: true }).then(() => {
-            console.log('mongoose Connected Successfully');
-        });
+    await mongoose.connect(mongoDBUrl)
+        .then(() => console.log("Connection Successful"))
+        .catch((err) => console.error("Connection Error:", err));
 
-    } catch (error) {
-        console.error('Database Connection Error', error);
-        process.exit(1);
-    }
 };
-
 module.exports = { connectDB };
